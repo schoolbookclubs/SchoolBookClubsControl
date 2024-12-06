@@ -88,9 +88,6 @@
     background: #2c3136;
 }
 
-#sidebar ul li.active > a {
-    background: #2c3136;
-}
 
 #sidebar ul li a i {
     margin-left: 10px;
@@ -213,6 +210,63 @@
     font-size: 1.5em;
 }
 
+
+
+.btn-loading .btn-text {
+    opacity: 0;
+}
+
+.btn-loading .spinner-border {
+    display: inline-block !important;
+}
+
+/* Custom Modal Styles */
+.custom-modal {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.message-icon {
+    font-size: 4rem;
+}
+
+.success-icon {
+    color: #28a745;
+    display: none;
+}
+
+.error-icon {
+    color: #dc3545;
+    display: none;
+}
+
+.message-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.modal-body button {
+    font-weight: 500;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.modal-body button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Animation for modal */
+.modal.fade .modal-dialog {
+    transform: scale(0.8);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .logo-container {
@@ -240,4 +294,10 @@
     .feature-card h3 {
         font-size: 1.2em;
     }
+}
+
+#loading {
+    display: none;
+    text-align: center;
+    margin: 20px 0;
 }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء معلم - برنامج اندية القراءة المدرسية</title>
+    <!-- Bootstrap RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <button type="button" id="sidebarCollapse" class="btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <h5>برنامج اندية القراءة المدرسية</h5>
+                </div>
+
+                <ul class="list-unstyled components">
+                    <li>
+                        <a href="./index.html" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            الصفحة الرئيسية
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./addSchool.html" class="nav-link">
+                            <i class="fas fa-school"></i>
+                            إنشاء مدرسة
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./schools.html" class="nav-link">
+                            <i class="fas fa-list"></i>
+                            عرض المدارس
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./addSupervisor.html" class="nav-link">
+                            <i class="fas fa-user-tie"></i>
+                            إنشاء مشرف
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./supervisors.html" class="nav-link">
+                            <i class="fas fa-users"></i>
+                            عرض المشرفين
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="./addTeacher.html" class="nav-link">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            إنشاء معلم
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./teachers.html" class="nav-link">
+                            <i class="fas fa-user-graduate"></i>
+                            عرض المعلمين
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <div class="container">
+                <h2 class="mb-4">إنشاء معلم جديد</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <form id="addTeacherForm">
+                            <div class="mb-3">
+                                <label for="teacherName" class="form-label">اسم المعلم</label>
+                                <input type="text" class="form-control" id="teacherName" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="teacherEmail" class="form-label">البريد الإلكتروني</label>
+                                <input type="email" class="form-control" id="teacherEmail" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="schoolCode" class="form-label">الكود المدرسي</label>
+                                <input type="text" class="form-control" id="schoolCode" name="schoolCode" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="loadingSpinner"></span>
+                                <span id="buttonText">إنشاء معلم جديد</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap Modal for Messages -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content custom-modal">
+                    <div class="modal-body text-center p-4">
+                        <i class="fas fa-check-circle text-success success-icon mb-3" style="font-size: 3rem; display: none;"></i>
+                        <i class="fas fa-times-circle text-danger error-icon mb-3" style="font-size: 3rem; display: none;"></i>
+                        <p class="message-text mb-4"></p>
+                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">إغلاق</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Main JS -->
+    <script src="./main.js"></script>
+</body>
+</html>
