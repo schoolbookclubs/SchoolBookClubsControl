@@ -1,3 +1,15 @@
+/* Top Navbar */
+.top-navbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    z-index: 999;
+}
+
 /* Sidebar Styles */
 .wrapper {
     display: flex;
@@ -5,34 +17,58 @@
     align-items: stretch;
 }
 
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh;
+#sidebarCollapse {
+    width: 50px;
+    height: 50px;
     background: #343a40;
     color: #fff;
-    transition: all 0.3s;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 0;
     position: fixed;
     right: 0;
     top: 0;
-    height: 100%;
+    z-index: 1001;
+    transition: all 0.3s;
+    padding: 0;
+}
+
+#sidebarCollapse:hover {
+    background: #2c3136;
+}
+
+#sidebar {
+    width: 200px;
+    position: fixed;
+    right: -250px;
+    top: 0;
+    height: 100vh;
+    background: #343a40;
+    color: #fff;
+    transition: all 0.3s;
     z-index: 1000;
 }
 
 #sidebar.active {
-    margin-right: -250px;
+    right: 0;
 }
 
-#sidebar .sidebar-header {
+.sidebar-content {
+    width: 250px;
+    padding-top: 50px; /* Space for the button */
+    height: 100%;
+    background: #343a40;
+}
+
+.sidebar-header {
     padding: 20px;
     background: #2c3136;
     text-align: center;
 }
 
-#sidebar .sidebar-header h4 {
+.sidebar-header h4 {
     color: #fff;
     margin: 0;
+    font-size: 1.1rem;
 }
 
 #sidebar ul.components {
@@ -40,8 +76,8 @@
 }
 
 #sidebar ul li a {
-    padding: 15px 20px;
-    font-size: 1.1em;
+    padding: 12px 20px;
+    font-size: 1rem;
     display: block;
     color: #fff;
     text-decoration: none;
@@ -60,40 +96,32 @@
     margin-left: 10px;
 }
 
+/* Content Styles */
 #content {
     width: 100%;
     min-height: 100vh;
     transition: all 0.3s;
-    margin-right: 250px;
-    padding: 20px;
+    padding: 20px 70px 20px 20px; /* Added right padding for the sidebar button */
 }
 
-#content.active {
-    margin-right: 0;
+/* Logo Styles */
+.logo-container {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 15px;
 }
 
-/* Navbar Styles */
-.navbar {
-    padding: 15px 10px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 20px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-#sidebarCollapse {
-    display: none;
+.company-logo {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    display: block;
+    margin: 0 auto;
 }
 
 /* Home Page Styles */
 .home-header {
-    padding: 40px 0;
-}
-
-.company-logo {
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    padding: 20px 0;
 }
 
 .welcome-title {
@@ -126,6 +154,7 @@
     left: 0;
 }
 
+/* Feature Cards */
 .feature-card {
     background: #fff;
     border-radius: 10px;
@@ -165,6 +194,7 @@
     margin-bottom: 0;
 }
 
+/* Program Goals */
 .program-goals {
     background-color: #f8f9fa;
 }
@@ -185,27 +215,13 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    #sidebar {
-        min-width: 200px;
-        max-width: 200px;
-        margin-right: -200px;
+    .logo-container {
+        max-width: 250px;
+        padding: 10px;
     }
-    
-    #sidebar.active {
-        margin-right: 0;
-    }
-    
+
     #content {
-        margin-right: 0;
-        padding: 15px;
-    }
-    
-    #content.active {
-        margin-right: 200px;
-    }
-    
-    #sidebarCollapse {
-        display: block;
+        padding: 15px 60px 15px 15px;
     }
 
     .feature-card {

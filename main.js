@@ -4,29 +4,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.getElementById('main-content');
     const homeContent = document.getElementById('home-content').innerHTML;
     const sidebar = document.getElementById('sidebar');
-    const content = document.getElementById('content');
     const sidebarCollapse = document.getElementById('sidebarCollapse');
+    const menuIcon = sidebarCollapse.querySelector('i');
 
-    // Toggle sidebar on button click
-    sidebarCollapse.addEventListener('click', function() {
+    // Sidebar toggle
+    sidebarCollapse.addEventListener('click', function(e) {
+        e.stopPropagation();
         sidebar.classList.toggle('active');
-        content.classList.toggle('active');
+        
+        if (sidebar.classList.contains('active')) {
+            menuIcon.classList.remove('fa-bars');
+            menuIcon.classList.add('fa-times');
+        } else {
+            menuIcon.classList.remove('fa-times');
+            menuIcon.classList.add('fa-bars');
+        }
     });
 
-    // Close sidebar by default on mobile
-    if (window.innerWidth <= 768) {
-        sidebar.classList.add('active');
-        content.classList.add('active');
-    }
-
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth <= 768) {
-            sidebar.classList.add('active');
-            content.classList.add('active');
-        } else {
+    // Close sidebar when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!sidebar.contains(event.target) && sidebar.classList.contains('active')) {
             sidebar.classList.remove('active');
-            content.classList.remove('active');
+            menuIcon.classList.remove('fa-times');
+            menuIcon.classList.add('fa-bars');
         }
     });
 
@@ -51,10 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p>محتوى صفحة ${this.textContent.trim()}</p>`;
             }
 
-            // Close sidebar on mobile after clicking a link
+            // Hide sidebar after clicking a link
             if (window.innerWidth <= 768) {
-                sidebar.classList.add('active');
-                content.classList.add('active');
+                sidebar.classList.remove('active');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
             }
         });
     });
