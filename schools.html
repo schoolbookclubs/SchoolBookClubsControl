@@ -43,37 +43,42 @@
         }
     </style>
 </head>
-<body>
-    <script>
-        // التحقق من حالة تسجيل الدخول
-        function checkAuth() {
-            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-            if (!isLoggedIn) {
-                window.location.href = './login.html';
-            }
+<script>
+    // التحقق الفوري من حالة تسجيل الدخول قبل تحميل الصفحة
+    (function() {
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+        if (!isLoggedIn) {
+            window.location.replace('./login.html');
+        }
+    })();
+</script>
+</head>
+<body style="display: none">
+<script>
+    // إظهار المحتوى فقط بعد التأكد من تسجيل الدخول
+    window.onload = function() {
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+        if (isLoggedIn) {
+            document.body.style.display = 'block';
         }
         
-        // التحقق عند تحميل الصفحة
-        window.onload = function() {
-            checkAuth();
-            
-            // إضافة معالج حدث تسجيل الخروج
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // حذف جميع البيانات من session storage
-                    sessionStorage.clear();
-                    
-                    // التأكد من تنفيذ التوجيه
-                    window.location.href = './login.html';
-                    return false;
-                });
-            }
-        };
-    </script>
+        // إضافة معالج حدث تسجيل الخروج
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // حذف جميع البيانات من session storage
+                sessionStorage.clear();
+                
+                // التأكد من تنفيذ التوجيه
+                window.location.href = './login.html';
+                return false;
+            });
+        }
+    };
+</script>
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar">

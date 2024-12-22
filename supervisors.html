@@ -42,20 +42,24 @@
             display: none;
         }
     </style>
-</head>
-<body>
     <script>
-        // التحقق من حالة تسجيل الدخول
-        function checkAuth() {
+        // التحقق الفوري من حالة تسجيل الدخول قبل تحميل الصفحة
+        (function() {
             const isLoggedIn = sessionStorage.getItem('isLoggedIn');
             if (!isLoggedIn) {
-                window.location.href = './login.html';
+                window.location.replace('./login.html');
             }
-        }
-        
-        // التحقق عند تحميل الصفحة
+        })();
+    </script>
+</head>
+<body style="display: none">
+    <script>
+        // إظهار المحتوى فقط بعد التأكد من تسجيل الدخول
         window.onload = function() {
-            checkAuth();
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            if (isLoggedIn) {
+                document.body.style.display = 'block';
+            }
             
             // إضافة معالج حدث تسجيل الخروج
             const logoutBtn = document.getElementById('logoutBtn');
