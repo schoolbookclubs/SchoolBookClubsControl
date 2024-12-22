@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #2196f3, #e91e63);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+
+        .lock-icon {
+            font-size: 60px;
+            color: #333;
+            margin-bottom: 20px;
+            transition: transform 0.5s, color 0.5s;
+        }
+
+        .unlocked {
+            color: #4CAF50;
+            transform: rotate(-10deg);
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            direction: rtl;
+        }
+
+        input[type="password"]:focus {
+            border-color: #2196f3;
+            outline: none;
+        }
+
+        button {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #1976d2;
+        }
+
+        .error-message {
+            color: #f44336;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <i class="fas fa-lock lock-icon" id="lockIcon"></i>
+        <form id="loginForm">
+            <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+        <div id="errorMessage" class="error-message">كلمة المرور غير صحيحة</div>
+        <div id="successMessage" class="success-message">تم تسجيل الدخول بنجاح</div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const lockIcon = document.getElementById('lockIcon');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+
+            try {
+                const response = await fetch('https://school-book-clubs-backend.vercel.app/api/password/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // نجاح تسجيل الدخول
+                    lockIcon.classList.remove('fa-lock');
+                    lockIcon.classList.add('fa-lock-open', 'unlocked');
+                    errorMessage.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    
+                    // تخزين حالة تسجيل الدخول
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    
+                    // الانتقال إلى الصفحة الرئيسية بعد ثانية
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 1000);
+                } else {
+                    // فشل تسجيل الدخول
+                    lockIcon.classList.add('shake');
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                    
+                    setTimeout(() => {
+                        lockIcon.classList.remove('shake');
+                    }, 500);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = 'حدث خطأ في الاتصال';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        // إزالة رسالة الخطأ عند الكتابة
+        document.getElementById('password').addEventListener('input', () => {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

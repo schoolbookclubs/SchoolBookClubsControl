@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #2196f3, #e91e63);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+        }
+
+        .page-title {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .page-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .title-divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #2196f3, #e91e63);
+            margin: 15px auto 25px;
+            border-radius: 2px;
+        }
+
+        .lock-icon {
+            font-size: 60px;
+            color: #333;
+            margin-bottom: 20px;
+            transition: transform 0.5s, color 0.5s;
+        }
+
+        .unlocked {
+            color: #4CAF50;
+            transform: rotate(-10deg);
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            direction: rtl;
+        }
+
+        input[type="password"]:focus {
+            border-color: #2196f3;
+            outline: none;
+        }
+
+        button {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #1976d2;
+        }
+
+        .error-message {
+            color: #f44336;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .password-label {
+            display: block;
+            text-align: right;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        .button-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        button:disabled {
+            background: #94c6f3;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="page-title">برنامج أندية القراءة المدرسية</h1>
+        <div class="title-divider"></div>
+        <h2 class="page-subtitle">لوحة التحكم</h2>
+        <i class="fas fa-lock lock-icon" id="lockIcon"></i>
+        <form id="loginForm">
+            <label for="password" class="password-label">كلمة المرور</label>
+            <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+            <button type="submit">
+                <div class="button-content">
+                    <span class="button-text">تسجيل الدخول</span>
+                    <div class="spinner"></div>
+                </div>
+            </button>
+        </form>
+        <div id="errorMessage" class="error-message">كلمة المرور غير صحيحة</div>
+        <div id="successMessage" class="success-message">تم تسجيل الدخول بنجاح</div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const lockIcon = document.getElementById('lockIcon');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const submitButton = e.target.querySelector('button');
+            const buttonText = submitButton.querySelector('.button-text');
+            const spinner = submitButton.querySelector('.spinner');
+
+            // تعطيل الزر وإظهار التحميل
+            submitButton.disabled = true;
+            buttonText.style.display = 'none';
+            spinner.style.display = 'block';
+
+            try {
+                const response = await fetch('http://localhost:4000/api/password/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // نجاح تسجيل الدخول
+                    lockIcon.classList.remove('fa-lock');
+                    lockIcon.classList.add('fa-lock-open', 'unlocked');
+                    errorMessage.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    
+                    // تخزين حالة تسجيل الدخول
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    
+                    // الانتقال إلى الصفحة الرئيسية بعد ثانية
+                    setTimeout(() => {
+                        window.location.href = './index.html';
+                    }, 1000);
+                } else {
+                    // فشل تسجيل الدخول
+                    lockIcon.classList.add('shake');
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                    
+                    // إعادة تفعيل الزر وإخفاء التحميل
+                    submitButton.disabled = false;
+                    buttonText.style.display = 'block';
+                    spinner.style.display = 'none';
+                    
+                    setTimeout(() => {
+                        lockIcon.classList.remove('shake');
+                    }, 500);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = 'حدث خطأ في الاتصال';
+                errorMessage.style.display = 'block';
+                
+                // إعادة تفعيل الزر وإخفاء التحميل
+                submitButton.disabled = false;
+                buttonText.style.display = 'block';
+                spinner.style.display = 'none';
+            }
+        });
+
+        // إزالة رسالة الخطأ عند الكتابة
+        document.getElementById('password').addEventListener('input', () => {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

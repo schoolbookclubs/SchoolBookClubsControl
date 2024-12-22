@@ -11,6 +11,36 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <script>
+        // التحقق من حالة تسجيل الدخول
+        function checkAuth() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            if (!isLoggedIn) {
+                window.location.href = './login.html';
+            }
+        }
+        
+        // التحقق عند تحميل الصفحة
+        window.onload = function() {
+            checkAuth();
+            
+            // إضافة معالج حدث تسجيل الخروج
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // حذف جميع البيانات من session storage
+                    sessionStorage.clear();
+                    
+                    // التأكد من تنفيذ التوجيه
+                    window.location.href = './login.html';
+                    return false;
+                });
+            }
+        };
+    </script>
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar">
@@ -63,6 +93,12 @@
                         <a href="./teachers.html" class="nav-link">
                             <i class="fas fa-user-graduate"></i>
                             عرض المعلمين
+                        </a>
+                    </li>
+                    <li class="mt-auto">
+                        <a href="javascript:void(0)" class="nav-link text-danger" id="logoutBtn" onclick="event.preventDefault();">
+                            <i class="fas fa-sign-out-alt"></i>
+                            تسجيل الخروج
                         </a>
                     </li>
                 </ul>
